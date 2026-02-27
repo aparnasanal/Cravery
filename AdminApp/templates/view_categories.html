@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+{% extends 'dashboard.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="card">
+                        <div class="header">
+                            <h2>
+                                VIEW CATEGORIES
+                            </h2>
+                            <ul class="header-dropdown m-r--5">
+                                <li class="dropdown">
+                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                        <i class="material-icons">more_vert</i>
+                                    </a>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li><a href="javascript:void(0);" class=" waves-effect waves-block">Action</a></li>
+                                        <li><a href="javascript:void(0);" class=" waves-effect waves-block">Another action</a></li>
+                                        <li><a href="javascript:void(0);" class=" waves-effect waves-block">Something else here</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="body table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>CATEGORY NAME</th>
+                                        <th>DESCRIPTION</th>
+                                        <th>IMAGE</th>
+                                        <th>OPTIONS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for i in cat %}
+                                <tr>
+                                    <td>{{ i.CategoryName }}</td>
+                                    <td>{{ i.Description }}</td>
+                                    <td>
+                                        <img src="{{ i.CategoryImage.url }}" height="50px" width="50px">
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-primary" href="{% url 'edit_category' cat_id=i.id %}" style="margin-right: 15px">Edit</a>
+                                        <a class="btn btn-danger" href="{% url 'delete_category' c_id=i.id %}py " >Delete</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+{% extends 'dashboard.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="card">
+                        <div class="header">
+                            <h2 style="font-weight: bold;">
+                                Add Dish
+                            </h2>
+                            <ul class="header-dropdown m-r--5">
+                                <li class="dropdown">
+                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                        <i class="material-icons">more_vert</i>
+                                    </a>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li><a href="javascript:void(0);" class=" waves-effect waves-block">Action</a></li>
+                                        <li><a href="javascript:void(0);" class=" waves-effect waves-block">Another action</a></li>
+                                        <li><a href="javascript:void(0);" class=" waves-effect waves-block">Something else here</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="body">
+                            <form method="post" action="{% url 'save_dish' %}" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <label>Dish Name</label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" id="email_address" class="form-control"
+                                               placeholder="Dish Name" name="dname">
+                                    </div>
+                                </div>
+                                <label>Category Name</label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <select class="form-control" name="cname">
+                                        <option>Choose a Category</option>
+                                            {% for i in cat %}
+                                            <option>{{i.CategoryName}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <label>Restaurant Name</label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <select name="rname" class="form-control">
+                                            <option>Select Restaurant</option>
+                                            {% for r in rest %}
+                                            <option>{{r.RestaurantName}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <label>Price</label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" id="email_address3" class="form-control"
+                                               placeholder="Price" name="dprice">
+                                    </div>
+                                </div>
+                                <label>Description</label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <textarea class="form-control" placeholder="Description" name="desc"></textarea>
+                                    </div>
+                                </div>
+                                <label>Upload Image</label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="file" class="form-control" name="dimg">
+                                    </div>
+                                </div>
+                                <br>
+                                <button type="submit" class="btn btn-primary m-t-15 waves-effect">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+
+</body>
+</html>
+{% endblock %}

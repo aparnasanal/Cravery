@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{% extends 'dashboard.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="card">
+                        <div class="header">
+                            <h2 style="font-weight: bold;">
+                                Edit Restaurant
+                            </h2>
+                            <ul class="header-dropdown m-r--5">
+                                <li class="dropdown">
+                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                        <i class="material-icons">more_vert</i>
+                                    </a>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li><a href="javascript:void(0);" class=" waves-effect waves-block">Action</a></li>
+                                        <li><a href="javascript:void(0);" class=" waves-effect waves-block">Another action</a></li>
+                                        <li><a href="javascript:void(0);" class=" waves-effect waves-block">Something else here</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="body">
+                            <form method="post" action="{% url 'update_restaurant' rest_id=rest.id %}" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <label>Restaurant Name</label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control"
+                                               placeholder="Restaurant Name" name="rname" value="{{rest.RestaurantName}}">
+                                    </div>
+                                </div>
+                                <label>Place</label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" id="email_address1" class="form-control"
+                                               placeholder="Place" name="rplace" value="{{rest.RestaurantPlace}}">
+                                    </div>
+                                </div>
+                                <label>Description</label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <textarea class="form-control" placeholder="Description"
+                                                  name="rdesc">{{rest.RestDescription}}</textarea>
+                                    </div>
+                                </div>
+                                <label>Upload Image</label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <img src="{{rest.RestaurantImage.url}}" height="100px">
+                                        <input type="file" class="form-control" name="rimg">
+                                    </div>
+                                </div>
+                                <br>
+                                <button type="submit" class="btn btn-primary m-t-15 waves-effect">Update</button>
+                            </form>
+                        </div>
+                    </div>
+
+</body>
+</html>
+{% endblock %}
