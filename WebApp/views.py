@@ -12,58 +12,97 @@ def homepage(request):
     category = CategoryDb.objects.all()
     selected_dish = DishDb.objects.order_by('-id')[:2]
     selected_dish1 = DishDb.objects.order_by('-id')[:8]
+    uname = request.session.get('Username')
+    count = 0
+    if uname:
+        count = CartDb.objects.filter(Username=uname).count()
     return render(request, "home.html",
                   {"rest" : restaurant,
                             "cat" : category,
                             "sel_dish" : selected_dish,
-                            "sel_dish1" : selected_dish1})
+                            "sel_dish1" : selected_dish1,
+                            "count" : count})
 
 def all_food(request):
     food = DishDb.objects.all()
     category = CategoryDb.objects.all()
     restaurant = RestaurantDb.objects.all()
+    uname = request.session.get('Username')
+    count = 0
+    if uname:
+        count = CartDb.objects.filter(Username=uname).count()
     return render(request, "all_food.html",
                   {"food" : food,
                             "cat" : category,
-                            "restaurant": restaurant})
+                            "restaurant": restaurant,
+                            "count" : count})
 
 def restaurant_food(request, rest_name):
     rest_food = DishDb.objects.filter(Restaurant_Name=rest_name)
     category = CategoryDb.objects.all()
     restaurant = RestaurantDb.objects.all()
+    uname = request.session.get('Username')
+    count = 0
+    if uname:
+        count = CartDb.objects.filter(Username=uname).count()
     return render(request, "restaurant_food.html",
                   {"rest": rest_food,
                             "category" : category,
-                           "restaurant": restaurant})
+                           "restaurant": restaurant,
+                            "count" : count})
 
 def category_food(request, cat_name):
     cat_food = DishDb.objects.filter(Category_Name=cat_name)
     category = CategoryDb.objects.all()
     restaurant = RestaurantDb.objects.all()
+    uname = request.session.get('Username')
+    count = 0
+    if uname:
+        count = CartDb.objects.filter(Username=uname).count()
     return render(request, "category_food.html",
                   {"cat" : cat_food,
                             "category" : category,
-                            "restaurant" : restaurant})
+                            "restaurant" : restaurant,
+                            "count" : count})
 
 def single_dish(request, dish_id):
     dish = DishDb.objects.get(id=dish_id)
     restaurant = RestaurantDb.objects.all()
     fav_dishes = DishDb.objects.order_by('-id')[5:10]
     category = CategoryDb.objects.all()
+    uname = request.session.get('Username')
+    count = 0
+    if uname:
+        count = CartDb.objects.filter(Username=uname).count()
     return render(request, "single_dish.html",
                   {"dish" : dish,
                             "restaurant" : restaurant,
                             "fav" : fav_dishes,
-                            "category" : category})
+                            "category" : category,
+                            "count" : count})
 #_________________________________________________________________________________________________
 
 def services(request):
-    return render(request, "services.html")
+    uname = request.session.get('Username')
+    categories = CategoryDb.objects.all()
+    restaurants = RestaurantDb.objects.all()
+    count = 0
+    if uname:
+        count = CartDb.objects.filter(Username=uname).count()
+    return render(request, "services.html",
+                                {"count" : count,
+                                        "cat" : categories,
+                                        "rest" : restaurants})
 
 def contact(request):
     category = CategoryDb.objects.all()
+    uname = request.session.get('Username')
+    count = 0
+    if uname:
+        count = CartDb.objects.filter(Username=uname).count()
     return render(request, "contact.html",
-                  {"cat" : category})
+                  {"cat" : category,
+                            "count" : count})
 
 def save_message(request):
     if request.method=="POST":
@@ -121,3 +160,57 @@ def user_logout(request):
     del request.session['Username']
     del request.session['Password']
     return redirect(signin)
+
+#______________________________________________________________________________________________________________
+
+def add_to_cart(request):
+    if request.method=="POST":
+        uname = request.POST.get('uname')
+        dname = request.POST.get('dname')
+        rname = request.POST.get('rname')
+        price = request.POST.get('price')
+        quantity = request.POST.get('quantity')
+        total = request.POST.get('totalprice')
+        pro = DishDb.objects.filter(DishName=dname).first()
+        img = pro.DishImage if pro else None
+        obj = CartDb(Username=uname, Restaurant=rname,  Dish_Name=dname, Price=price,
+                     Quantity=quantity, Total_Price=total, Dish_Image=img)
+        obj.save()
+
+        return redirect(cart)
+
+def cart(request):
+    foods = CartDb.objects.filter(Username=request.session['Username'])
+    categories = CategoryDb.objects.all()
+    restaurants = RestaurantDb.objects.all()
+    uname =request.session.get('Username')
+    count = 0
+    if uname:
+        count = CartDb.objects.filter(Username=uname).count()
+    sub_total = 0
+    delivery = 0
+    grand_total = 0
+
+    for i in foods:
+        sub_total += i.Total_Price
+        if sub_total > 500:
+            delivery = 0
+        elif sub_total > 400:
+            delivery = 50
+        else:
+            delivery = 100
+        grand_total = sub_total + delivery
+
+    return render(request, "cart.html",
+                  {"foods" : foods,
+                            "cat" : categories,
+                            "rest" : restaurants,
+                            "count" : count,
+                            "delivery" : delivery,
+                            "sub_total" : sub_total,
+                            "grand_total" : grand_total,})
+
+def delete_dish(request, dish_id):
+    dish = CartDb.objects.get(id=dish_id)
+    dish.delete()
+    return redirect(cart)

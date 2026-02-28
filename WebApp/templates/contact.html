@@ -172,9 +172,18 @@
 <!--                                class="fa fa-mobile-alt me-2"></i> +0123 456 7890</a>-->
                           <a href="#" class="text-light d-flex align-items-center justify-content-center me-3"><span
                                 class="rounded-circle btn-md-square border" style="margin-left: 120px;"><i class="fas fa-heart"></i></span></a>
-                    <a href="#" class="text-light d-flex align-items-center justify-content-center me-3"><span
-                            class="rounded-circle btn-md-square border"><i class="fas fa-shopping-cart"></i></span>
-                        </a>
+                    <a href="{% url 'cart' %}"
+                   class="text-light d-flex align-items-center justify-content-center me-3 position-relative">
+
+                    <span class="rounded-circle active btn-md-square border position-relative">
+                        <i class="fas fa-shopping-cart"></i>
+                    </span>
+                    <span class="position-absolute badge rounded-pill bg-white text-dark"
+                          style="top: 0px; right: -4px; font-size: 10px;">
+                        {{ count }}
+                    </span>
+
+                    </a>
                         {% if request.session.Username %}
                         <div class="dropdown" >
                         <a href="#" class="dropdown-toggle text-light ms-2" data-bs-toggle="dropdown"><small><i
