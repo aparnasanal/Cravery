@@ -34,7 +34,7 @@
 	            <div class="form-group">
 	              <input id="password-field" type="password" class="form-control" name="password" placeholder="Password" required>
 	              <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
-	            </div>
+	            </div><br>
 	            <div class="form-group">
 	            	<button type="submit" class="form-control btn btn-primary submit px-3">Login</button>
 	            </div>
@@ -60,11 +60,20 @@
 		</div>
 	</section>
 
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script src="{% static 'login/js/jquery.min.js' %}"></script>
   <script src="{% static 'login/js/popper.js' %}"></script>
   <script src="{% static 'login/js/bootstrap.min.js' %}"></script>
   <script src="{% static 'login/js/main.js' %}"></script>
-
+    {% if messages %}
+        {% for msg in messages %}
+            {% if msg.tags == "error" %}
+                <script>
+                    swal('{{msg}}', '', 'error')
+                </script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 	</body>
 </html>
 

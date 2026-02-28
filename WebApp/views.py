@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from unicodedata import category
+from django.contrib import messages
+
 
 from AdminApp.models import *
 from WebApp.models import *
@@ -91,8 +92,15 @@ def save_user(request):
         c_password = request.POST.get('password2')
 
         obj = RegistrationDb(Username=username, Email=email, Password=password, C_Password=c_password)
-        obj.save()
-        return redirect(signup)
+        if RegistrationDb.objects.filter(Username=username).exists():
+            messages.warning(request, "Username Already Exists")
+            return redirect(signup)
+        elif RegistrationDb.objects.filter(Email=email).exists():
+            messages.warning(request, "Email Already Exists")
+            return redirect(signup)
+        else:
+            obj.save()
+            return redirect(signin)
 
 def user_login(request):
     if request.method=="POST":
@@ -104,6 +112,7 @@ def user_login(request):
             request.session['Password'] = pswd
             return redirect(homepage)
         else:
+            messages.error(request, "Invalid Username or Password")
             return redirect(signin)
     else:
         return redirect(signin)

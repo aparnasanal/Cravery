@@ -26,35 +26,34 @@
 				<div class="col-md-6 col-lg-4">
 					<div class="login-wrap p-0">
 		      	<p class="mb-4 text-center text-white" >Create an account. Start ordering happiness.</p>
-		      	<form method="post" action="{% url 'save_user' %}" class="signin-form">
+		      	<form method="post" action="{% url 'save_user' %}" onsubmit="return user_validation()" class="signin-form">
                     {% csrf_token %}
 		      		<div class="form-group">
-		      			<input type="text" class="form-control" placeholder="Username" name="username" required>
+		      			<input type="text" class="form-control" id="username" placeholder="Username" name="username">
+                        <span style="color: red;" id="userError"></span>
 		      		</div>
                     <div class="form-group">
-		      			<input type="text" class="form-control" placeholder="Email" name="email" required>
+		      			<input type="email" class="form-control" placeholder="Email" id="email" name="email">
+                        <span style="color: red;" id="emailError"></span>
 		      		</div>
                     <div class="form-group">
-		      			<input type="text" class="form-control" placeholder="Password" name="password1" required>
+		      			<input type="password" id="password1" class="form-control" placeholder="Password" name="password1">
+                        <span toggle="#password1" class="fa fa-fw fa-eye field-icon toggle-password"></span>
 		      		</div>
+                    <div style="margin-top: -12px; margin-bottom: 15px;">
+                        <span style="color: red;" id="pass1Error"></span>
+                    </div>
 	            <div class="form-group">
-	              <input id="password-field" type="password" class="form-control" placeholder="Confirm Password" name="password2" required>
-	              <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+	              <input id="password2" type="password" class="form-control" placeholder="Confirm Password" name="password2">
+	              <span toggle="#password2" class="fa fa-fw fa-eye field-icon toggle-password"></span>
 	            </div>
+                    <div style="margin-top: -12px;">
+                        <span style="color: red;" id="pass2Error"></span>
+                    </div><br>
 	            <div class="form-group">
 	            	<button type="submit" class="form-control btn btn-primary submit px-3">Sign Up</button>
 	            </div>
-<!--	            <div class="form-group d-md-flex">-->
-<!--	            	<div class="w-50">-->
-<!--		            	<label class="checkbox-wrap checkbox-primary">Remember Me-->
-<!--									  <input type="checkbox" checked>-->
-<!--									  <span class="checkmark"></span>-->
-<!--									</label>-->
-<!--								</div>-->
-<!--								<div class="w-50 text-md-right">-->
-<!--									<a href="#" style="color: #fff">Forgot Password</a>-->
-<!--								</div>-->
-<!--	            </div>-->
+
 	          </form>
 	          <p class="w-100 text-center">&mdash; Already Have an Account? &mdash;</p>
 	          <div class="d-flex text-center">
@@ -66,10 +65,77 @@
 		</div>
 	</section>
 
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script src="{% static 'login/js/jquery.min.js' %}"></script>
   <script src="{% static 'login/js/popper.js' %}"></script>
   <script src="{% static 'login/js/bootstrap.min.js' %}"></script>
   <script src="{% static 'login/js/main.js' %}"></script>
+    {% if messages %}
+        {% for msg in messages %}
+            {% if msg.tags == "warning" %}
+                <script>
+                    swal('{{msg}}', '', 'warning')
+                </script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    <script>
+        function user_validation(){
+        username = document.getElementById('username').value;
+        email = document.getElementById('email').value;
+        pass1 = document.getElementById('password1').value;
+        pass2 = document.getElementById('password2').value;
+
+        // strong pattern
+
+        pattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{6,}$/;
+
+        // clear errors
+        document.getElementById('userError').innerHTML = "";
+        document.getElementById('emailError').innerHTML = "";
+        document.getElementById('pass1Error').innerHTML = "";
+        document.getElementById('pass2Error').innerHTML = "";
+
+        // empty cases
+
+        if(username === ""){
+        document.getElementById('userError').innerHTML = "Username can't be empty.";
+        return false;
+        }
+
+        if(email === ""){
+        document.getElementById('emailError').innerHTML = "Email Address can't be empty.";
+        return false;
+        }
+
+        if(pass1 === ""){
+        document.getElementById('pass1Error').innerHTML = "Password can't be empty.";
+        return false;
+        }
+
+        if(!pattern.test(pass1)){
+        document.getElementById('pass1Error').innerHTML = "Password must contain atleast 6 characters, 1 Uppercase, 1 digit, 1 special character.";
+        return false;
+        }
+
+        if(pass2 === ""){
+        document.getElementById('pass2Error').innerHTML = "Confirm Password can't be empty.";
+        return false;
+        }
+
+        if(pass1 != pass2){
+        document.getElementById('pass2Error').innerHTML = "Password do not match.";
+        return false;
+        }
+
+        else{
+        return true;
+        }
+
+
+       }
+    </script>
 
 	</body>
 </html>
