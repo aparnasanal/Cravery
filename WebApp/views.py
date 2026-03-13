@@ -214,3 +214,44 @@ def delete_dish(request, dish_id):
     dish = CartDb.objects.get(id=dish_id)
     dish.delete()
     return redirect(cart)
+
+def checkout(request):
+    if request.method == "POST":
+        first = request.POST.get('first')
+        last = request.POST.get('last')
+        address = request.POST.get('address')
+        city = request.POST.get('city')
+        mobile = request.POST.get('mobile')
+        email = request.POST.get('email')
+
+        obj = OrderDb(FirstName=first, LastName=last, Address=address, City=city, Mobile=mobile, Email=email)
+        obj.save()
+
+        return redirect(payment)
+
+    categories = CategoryDb.objects.all()
+    restaurants = RestaurantDb.objects.all()
+    data = CartDb.objects.filter(Username=request.session['Username'])
+    uname = request.session.get('Username')
+    cart_count = 0
+    if uname:
+        cart_count = CartDb.objects.filter(Username=uname).count()
+    sub_total = 0
+    delivery = 0
+    grand_total = 0
+
+    for i in data:
+        sub_total += i.Total_Price
+        if sub_total > 500:
+            delivery = 0
+        elif sub_total > 400:
+            delivery = 50
+        else:
+            delivery = 100
+        grand_total = sub_total + delivery
+    return render(request, "checkout_page.html", {"sub_total" : sub_total, "delivery" : delivery,
+                                                  "grand_total" : grand_total, "cart_count" : cart_count, "data" : data,
+                                                  "cat" : categories, "rest" : restaurants})
+
+def payment(request):
+    return render(request, "payment.html")

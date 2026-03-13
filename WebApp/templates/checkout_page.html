@@ -43,7 +43,8 @@
         </div>
     </div>
     <!-- Spinner End -->
-      <!-- Navbar & Hero Start -->
+
+     <!-- Navbar & Hero Start -->
     <div class="container-fluid nav-bar p-0">
         <div class="row gx-0 bg-primary px-5 align-items-center">
             <div class="col-lg-3 d-none d-lg-block">
@@ -98,78 +99,33 @@
             </div>
             <div class="col-12 col-lg-9">
                 <nav class="navbar navbar-expand-lg navbar-light bg-primary ">
-<!--                    <a href="" class="navbar-brand d-block d-lg-none">-->
-<!--                        <h1 class="display-5 text-secondary m-0"><i-->
-<!--                                class="fas fa-shopping-bag text-white me-2"></i>Electro</h1>-->
-<!--                        &lt;!&ndash; <img src="img/logo.png" alt="Logo"> &ndash;&gt;-->
-<!--                    </a>-->
-<!--                    <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"-->
-<!--                        data-bs-target="#navbarCollapse">-->
-<!--                        <span class="fa fa-bars fa-1x"></span>-->
-<!--                    </button>-->
                     <div class="collapse navbar-collapse" style="margin-left: 50px; display: block; padding: 10px;" id="navbarCollapse">
                         <div class="navbar-nav ms-auto py-0">
                             <a href="{% url 'home' %}" class="nav-item nav-link">Home</a>
                             <a href="{% url 'all_food' %}" class="nav-item nav-link">Food</a>
                             <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Categories</a>
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Categories</a>
                                 <div class="dropdown-menu m-0">
-                                    {% for i in category %}
-                                    <a href="{% url 'category_food' cat_name=i.CategoryName %}" class="dropdown-item">{{i.CategoryName}}</a>
+                                    {% for c in cat %}
+                                    <a href="{% url 'category_food' cat_name=c.CategoryName %}" class="dropdown-item">{{c.CategoryName}}</a>
                                     {% endfor %}
                                 </div>
                             </div>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Restaurants</a>
                                 <div class="dropdown-menu m-0">
-                                    {% for i in restaurant %}
-                                    <a href="{% url 'restaurant_food' rest_name=i.RestaurantName %}" class="dropdown-item">{{i.RestaurantName}}</a>
+                                    {% for r in rest %}
+                                    <a href="{% url 'restaurant_food' rest_name=r.RestaurantName %}" class="dropdown-item">{{r.RestaurantName}}</a>
                                     {% endfor %}
                                 </div>
                             </div>
                             <a href="{% url 'services' %}" class="nav-item nav-link">Services</a>
-                            <a href="{% url 'contact' %}" class="nav-item nav-link me-2">Contact</a>
-                            <div class="nav-item dropdown d-block d-lg-none mb-3">
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">All Category</a>
-                                <div class="dropdown-menu m-0">
-                                    <ul class="list-unstyled categories-bars">
-                                        <li>
-                                            <div class="categories-bars-item">
-                                                <a href="#">Accessories</a>
-                                                <span>(3)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="categories-bars-item">
-                                                <a href="#">Electronics & Computer</a>
-                                                <span>(5)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="categories-bars-item">
-                                                <a href="#">Laptops & Desktops</a>
-                                                <span>(2)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="categories-bars-item">
-                                                <a href="#">Mobiles & Tablets</a>
-                                                <span>(8)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="categories-bars-item">
-                                                <a href="#">SmartPhone & Smart TV</a>
-                                                <span>(5)</span>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                            <a href="{% url 'contact' %}}" class="nav-item nav-link me-2 ">Contact</a>
+
                         </div>
 <!--                        <a href="" class="btn btn-secondary rounded-pill py-2 px-4 px-lg-3 mb-3 mb-md-3 mb-lg-0"><i-->
 <!--                                class="fa fa-mobile-alt me-2"></i> +0123 456 7890</a>-->
-                           <a href="#" class="text-light d-flex align-items-center justify-content-center me-3"><span
+                          <a href="#" class="text-light d-flex align-items-center justify-content-center me-3"><span
                                 class="rounded-circle btn-md-square border" style="margin-left: 120px;"><i class="fas fa-heart"></i></span></a>
                     <a href="{% url 'cart' %}"
                    class="text-light d-flex align-items-center justify-content-center me-3 position-relative">
@@ -209,117 +165,135 @@
 
     <!-- Single Page Header start -->
     <div class="container-fluid page-header py-5">
-        <h1 class="text-center text-white display-6 wow fadeInUp" data-wow-delay="0.1s">Beat Your Cravings !</h1>
+        <h1 class="text-center text-white display-6 wow fadeInUp" data-wow-delay="0.1s">Checkout Page</h1>
         <ol class="breadcrumb justify-content-center mb-0 wow fadeInUp" data-wow-delay="0.3s">
             <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-            <li class="breadcrumb-item active text-white">Categories</li>
+            <li class="breadcrumb-item"><a href="{% url 'cart' %}">Cart</a></li>
+            <li class="breadcrumb-item active text-white">Checkout</li>
         </ol>
     </div>
     <!-- Single Page Header End -->
 
-
-    <!-- Shop Page Start -->
-    <div class="container-fluid shop py-5">
+    <!-- Checkout Page Start -->
+    <div class="container-fluid bg-light overflow-hidden py-5">
         <div class="container py-5">
-            <div class="row g-4">
-                <div class="col-lg-3 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="product-categories mb-4">
-                        <h4>Categories</h4>
-                        <ul class="list-styled">
-                            {% for i in category %}
-                            <li>
-                                <div class="categories-item">
-                                    <a href="{% url 'category_food' cat_name=i.CategoryName %}" class="text-dark">
-                                        {{i.CategoryName}}</a>
+            <h1 class="mb-4 wow fadeInUp" data-wow-delay="0.1s">Billing Details</h1>
+            <form action="{% url 'checkout' %}" method="post">
+                {% csrf_token %}
+                <div class="row g-5">
+                    <div class="col-md-12 col-lg-6 col-xl-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="row">
+                            <div class="col-md-12 col-lg-6">
+                                <div class="form-item w-100">
+                                    <label class="form-label my-3">First Name<sup>*</sup></label>
+                                    <input type="text" class="form-control" name="first">
                                 </div>
-                            </li>
-                            {% endfor %}
-
-                        </ul>
-                    </div>
-
-
-                    <div class="product-tags py-4">
-                        <h4 class="mb-3">RESTAURANTS</h4>
-                        <div class="product-tags-items bg-light rounded p-3">
-                            {% for i in restaurant %}
-                            <a href="{% url 'restaurant_food' rest_name=i.RestaurantName %}" class="border rounded py-1 px-2 mb-2">{{i.RestaurantName}}</a>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-9 wow fadeInUp" data-wow-delay="0.1s">
-                    <h1 class="mb-5">Made for You</h1>
-                    <div class="row g-4">
-                    <div class="tab-content">
-                        <div id="tab-5" class="tab-pane fade show p-0 active">
-                            <div class="row g-4 product">
-
-                                {% for c in cat %}
-                                <div class="col-lg-4">
-                                    <div class="product-item rounded wow fadeInUp" data-wow-delay="0.1s">
-                                        <div class="product-item-inner border rounded">
-                                            <div class="product-item-inner-item">
-                                                <a href="{% url 'single_dish' dish_id=c.id %}">
-                                                <img src="{{c.DishImage.url}}" class="img-fluid w-100 rounded-top" style="height: 250px;" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="text-center rounded-bottom p-4">
-                                                <a href="#" class="d-block mb-2">{{c.Category_Name}}</a>
-                                                <a href="#" class="d-block h4">{{c.DishName}}</a>
-                                                <span class="text-primary fs-5">Rs. {{c.DishPrice}}</span>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="product-item-add border border-top-0 rounded-bottom  text-center p-4 pt-0">
-                                            <a href="#"
-                                                class="btn btn-primary border-secondary rounded-pill py-2 px-4 mb-4"><i
-                                                    class="fas fa-shopping-cart me-2"></i> Add To Cart</a>
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div class="d-flex">
-                                                    <i class="fas fa-star text-primary"></i>
-                                                    <i class="fas fa-star text-primary"></i>
-                                                    <i class="fas fa-star text-primary"></i>
-                                                    <i class="fas fa-star text-primary"></i>
-                                                    <i class="fas fa-star"></i>
-                                                </div>
-                                                <div class="d-flex">
-                                                    <a href="#"
-                                                        class="text-primary d-flex align-items-center justify-content-center me-3"><span
-                                                            class="rounded-circle btn-sm-square border"><i
-                                                                class="fas fa-random"></i></i></a>
-                                                    <a href="#"
-                                                        class="text-primary d-flex align-items-center justify-content-center me-0"><span
-                                                            class="rounded-circle btn-sm-square border"><i
-                                                                class="fas fa-heart"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endfor %}
-
-                                <div class="col-12 wow fadeInUp" data-wow-delay="0.1s">
-                                    <div class="pagination d-flex justify-content-center mt-5">
-                                        <a href="#" class="rounded">&laquo;</a>
-                                        <a href="#" class="active rounded">1</a>
-                                        <a href="#" class="rounded">2</a>
-                                        <a href="#" class="rounded">3</a>
-                                        <a href="#" class="rounded">4</a>
-                                        <a href="#" class="rounded">5</a>
-                                        <a href="#" class="rounded">6</a>
-                                        <a href="#" class="rounded">&raquo;</a>
-                                    </div>
+                            </div>
+                            <div class="col-md-12 col-lg-6">
+                                <div class="form-item w-100">
+                                    <label class="form-label my-3">Last Name<sup>*</sup></label>
+                                    <input type="text" class="form-control" name="last">
                                 </div>
                             </div>
                         </div>
+                        <div class="form-item">
+                            <label class="form-label my-3">Address <sup>*</sup></label>
+                            <input type="text" class="form-control" placeholder="House Number Street Name" name="address">
+                        </div>
+                        <div class="form-item">
+                            <input type="hidden" class="form-control" value="{{grand_total}}" placeholder="House Number Street Name" name="total">
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label my-3">Town/City<sup>*</sup></label>
+                            <input type="text" class="form-control" name="city">
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label my-3">Mobile<sup>*</sup></label>
+                            <input type="tel" class="form-control" name="mobile">
+                        </div>
+                        <div class="form-item">
+                            <label class="form-label my-3">Email Address<sup>*</sup></label>
+                            <input type="email" class="form-control" name="email">
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6 col-xl-6 wow fadeInUp" data-wow-delay="0.3s">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th scope="col" class="text-start">Name</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for i in data %}
+                                    <tr class="text-center">
+                                        <th scope="row" class="text-start py-4">
+                                            {{i.Dish_Name}}
+                                        </th>
+                                        <td class="py-4">{{i.Price}}</td>
+                                        <td class="py-4">{{i.Quantity}}</td>
+                                        <td class="py-4 text-center">{{i.Total_Price}}</td>
+                                    </tr>
+                                {% endfor %}
+                                    <tr>
+                                        <th scope="row">
+                                        </th>
+                                        <td class="py-4"></td>
+                                        <td class="py-4">
+                                            <p class="mb-0 text-dark py-2">Subtotal</p>
+                                        </td>
+                                        <td class="py-4">
+                                            <div class="py-2 text-center border-bottom border-top">
+                                                <p class="mb-0 text-dark">{{sub_total}} Rs</p>
+                                            </div>
+                                        </td>
+                                    </tr>
 
+
+                                    <tr>
+                                        <th scope="row">
+                                        </th>
+                                        <td class="py-4"></td>
+                                        <td class="py-4">
+                                            <p class="mb-0 text-dark py-2">Delivery</p>
+                                        </td>
+                                        <td class="py-4">
+                                            <div class="py-2 text-center border-bottom border-top">
+                                                <p class="mb-0 text-dark">{{delivery}} Rs</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">
+                                        </th>
+                                        <td class="py-4">
+                                            <p class="mb-0 text-dark text-uppercase py-2"><b>TOTAL</b></p>
+                                        </td>
+                                        <td class="py-4"></td>
+                                        <td class="py-4">
+                                            <div class="py-2 text-center border-bottom border-top">
+                                                <p class="mb-0 text-dark"><b>{{grand_total}} Rs</b></p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row g-4 text-center align-items-center justify-content-center pt-4">
+                            <button type="submit"
+                                class="btn btn-primary border-secondary py-3 px-4 text-uppercase w-100 text-primary">Place
+                                Order</button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
-    <!-- Shop Page End -->
+    <!-- Checkout Page End -->
 
    <!-- Footer Start -->
     <div class="container-fluid footer py-5 wow fadeIn" data-wow-delay="0.2s">
