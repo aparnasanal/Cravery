@@ -3,6 +3,7 @@ from WebApp import views
 
 urlpatterns = [
     path('home/', views.homepage, name='home'),
+    path('search/', views.search, name='search'),
     path('all_food/', views.all_food, name='all_food'),
     path('restaurant_food/<rest_name>/', views.restaurant_food, name='restaurant_food'),
     path('category_food/<cat_name>/', views.category_food, name='category_food'),
@@ -23,5 +24,6 @@ urlpatterns = [
     path('cart/', views.cart, name="cart"),
     path('checkout/', views.checkout, name="checkout"),
     path('payment/', views.payment, name="payment"),
+    path('payment_success/', views.payment_success, name="payment_success"),
 
 ]

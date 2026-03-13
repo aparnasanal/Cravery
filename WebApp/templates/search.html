@@ -56,58 +56,11 @@
                     <div class="nav nav-brand">
                         <img class="nav nav-brand" src="{% static 'web/img/logo.png' %}" height="80px">
                     </div>
-<!--                    <div class="collapse navbar-collapse rounded-bottom" id="allCat">-->
-<!--                        <div class="navbar-nav ms-auto py-0">-->
-<!--                            <ul class="list-unstyled categories-bars">-->
-<!--                                <li>-->
-<!--                                    <div class="categories-bars-item">-->
-<!--                                        <a href="#">Accessories</a>-->
-<!--                                        <span>(3)</span>-->
-<!--                                    </div>-->
-<!--                                </li>-->
-<!--                                <li>-->
-<!--                                    <div class="categories-bars-item">-->
-<!--                                        <a href="#">Electronics & Computer</a>-->
-<!--                                        <span>(5)</span>-->
-<!--                                    </div>-->
-<!--                                </li>-->
-<!--                                <li>-->
-<!--                                    <div class="categories-bars-item">-->
-<!--                                        <a href="#">Laptops & Desktops</a>-->
-<!--                                        <span>(2)</span>-->
-<!--                                    </div>-->
-<!--                                </li>-->
-<!--                                <li>-->
-<!--                                    <div class="categories-bars-item">-->
-<!--                                        <a href="#">Mobiles & Tablets</a>-->
-<!--                                        <span>(8)</span>-->
-<!--                                    </div>-->
-<!--                                </li>-->
-<!--                                <li>-->
-<!--                                    <div class="categories-bars-item">-->
-<!--                                        <a href="#">SmartPhone & Smart TV</a>-->
-<!--                                        <span>(5)</span>-->
-<!--                                    </div>-->
-<!--                                </li>-->
-<!--                            </ul>-->
-
-<!--                        </div>-->
-
-<!--                    </div>-->
 
                 </nav>
             </div>
             <div class="col-12 col-lg-9">
                 <nav class="navbar navbar-expand-lg navbar-light bg-primary ">
-<!--                    <a href="" class="navbar-brand d-block d-lg-none">-->
-<!--                        <h1 class="display-5 text-secondary m-0"><i-->
-<!--                                class="fas fa-shopping-bag text-white me-2"></i>Electro</h1>-->
-<!--                        &lt;!&ndash; <img src="img/logo.png" alt="Logo"> &ndash;&gt;-->
-<!--                    </a>-->
-<!--                    <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"-->
-<!--                        data-bs-target="#navbarCollapse">-->
-<!--                        <span class="fa fa-bars fa-1x"></span>-->
-<!--                    </button>-->
                     <div class="collapse navbar-collapse" style="margin-left: 50px; display: block; padding: 10px;" id="navbarCollapse">
                         <div class="navbar-nav ms-auto py-0">
                             <a href="{% url 'home' %}" class="nav-item nav-link">Home</a>
@@ -123,7 +76,7 @@
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Restaurants</a>
                                 <div class="dropdown-menu m-0">
-                                    {% for i in restaurant %}
+                                    {% for i in rest %}
                                     <a href="{% url 'restaurant_food' rest_name=i.RestaurantName %}" class="dropdown-item">{{i.RestaurantName}}</a>
                                     {% endfor %}
                                 </div>
@@ -132,8 +85,6 @@
                             <a href="{% url 'contact' %}" class="nav-item nav-link me-2">Contact</a>
 
                         </div>
-<!--                        <a href="" class="btn btn-secondary rounded-pill py-2 px-4 px-lg-3 mb-3 mb-md-3 mb-lg-0"><i-->
-<!--                                class="fa fa-mobile-alt me-2"></i> +0123 456 7890</a>-->
 
                            <a href="#" class="text-light d-flex align-items-center justify-content-center me-3"><span
                                 class="rounded-circle btn-md-square border" style="margin-left: 120px;"><i class="fas fa-heart"></i></span></a>
@@ -154,10 +105,6 @@
                         <a href="#" class="dropdown-toggle text-light ms-2" data-bs-toggle="dropdown"><small><i
                                     class="fa fa-user me-2"></i>Hey {{request.session.Username}}</small></a>
                         <div class="dropdown-menu rounded">
-                            <a href="#" class="dropdown-item"> Wishlist</a>
-                            <a href="#" class="dropdown-item"> Notifications</a>
-                            <a href="#" class="dropdown-item"> Account Settings</a>
-                            <a href="#" class="dropdown-item"> My Account</a>
                             <a href="{% url 'user_logout' %}" class="dropdown-item"> Log Out</a>
                         </div>
                             {% else %}
@@ -208,7 +155,7 @@
                     <div class="product-tags py-4">
                         <h4 class="mb-3">RESTAURANTS</h4>
                         <div class="product-tags-items bg-light rounded p-3">
-                            {% for i in restaurant %}
+                            {% for i in rest %}
                             <a href="{% url 'restaurant_food' rest_name=i.RestaurantName %}" class="border rounded py-1 px-2 mb-2">{{i.RestaurantName}}</a>
                             {% endfor %}
                         </div>
@@ -221,24 +168,35 @@
                     <div class="tab-content">
                         <div id="tab-5" class="tab-pane fade show p-0 active">
                             <div class="row g-4 product">
-                                {% for f in food %}
-                                <div class="col-lg-4">
-                                    <div class="product-item rounded wow fadeInUp" data-wow-delay="0.1s">
-                                        <div class="product-item-inner border rounded">
-                                            <div class="product-item-inner-item">
-                                                <a href="{% url 'single_dish' dish_id=f.id %}">
-                                                <img src="{{f.DishImage.url}}" class="img-fluid w-100 rounded-top" style="height: 250px;" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="text-center rounded-bottom p-4">
-                                                <a href="#" class="d-block mb-2">{{f.Category_Name}}</a>
-                                                <a href="#" class="d-block h4">{{f.DishName}}</a>
-                                                <span class="text-primary fs-5">Rs. {{f.DishPrice}}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endfor %}
+                                {% for f in foods %}
+<div class="col-lg-4">
+    <div class="product-item rounded">
+        <div class="product-item-inner border rounded">
+
+            <div class="product-item-inner-item">
+                <a href="{% url 'single_dish' dish_id=f.id %}">
+                    <img src="{{f.DishImage.url}}" class="img-fluid w-100 rounded-top" style="height:250px;">
+                </a>
+
+            </div>
+
+            <div class="text-center rounded-bottom p-4">
+                <span class="d-block mb-2">{{f.Category_Name}}</span>
+                <h5>{{f.DishName}}</h5>
+                <span class="text-primary fs-5">Rs. {{f.DishPrice}}</span>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% empty %}
+
+<div class="col-12 text-center">
+    <h4>No food found</h4>
+</div>
+
+{% endfor %}
 
                                 <div class="col-12 wow fadeInUp" data-wow-delay="0.1s">
                                     <div class="pagination d-flex justify-content-center mt-5">

@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+import razorpay
+from django.db.models import Q
 
 
 from AdminApp.models import *
@@ -22,6 +24,31 @@ def homepage(request):
                             "sel_dish" : selected_dish,
                             "sel_dish1" : selected_dish1,
                             "count" : count})
+
+def search(request):
+    category = CategoryDb.objects.all()
+    restaurant = RestaurantDb.objects.all()
+    uname = request.session.get('Username')
+    count = 0
+    if uname:
+        count = CartDb.objects.filter(Username=uname).count()
+    query = request.GET.get('q')
+
+    foods = DishDb.objects.filter(
+        Q(DishName__icontains=query) |
+        Q(Category_Name__icontains=query) |
+        Q(Restaurant_Name__icontains=query)
+    )
+
+    context = {
+        "foods": foods,
+        "query": query,
+        "cat" : category,
+        "rest" : restaurant,
+        "count": count
+    }
+
+    return render(request, "search.html", context)
 
 def all_food(request):
     food = DishDb.objects.all()
@@ -223,8 +250,10 @@ def checkout(request):
         city = request.POST.get('city')
         mobile = request.POST.get('mobile')
         email = request.POST.get('email')
+        grand_total=request.POST.get('total')
 
-        obj = OrderDb(FirstName=first, LastName=last, Address=address, City=city, Mobile=mobile, Email=email)
+        obj = OrderDb(FirstName=first, LastName=last, Address=address, City=city, Mobile=mobile,
+                      Email=email, GrandTotal=grand_total)
         obj.save()
 
         return redirect(payment)
@@ -254,4 +283,45 @@ def checkout(request):
                                                   "cat" : categories, "rest" : restaurants})
 
 def payment(request):
-    return render(request, "payment.html")
+    categories = CategoryDb.objects.all()
+    restaurants = RestaurantDb.objects.all()
+
+    uname = request.session.get('Username')
+    cart_count = 0
+
+    if uname:
+        cart_count = CartDb.objects.filter(Username=uname).count()
+
+    customer = OrderDb.objects.order_by('-id').first()
+    pay = customer.GrandTotal
+
+    amount = int(pay * 100)
+
+    client = razorpay.Client(auth=("rzp_test_0ib0jPwwZ7I1lT","VjHNO5zKeKxz8PYe7VnzwxMR"))
+
+    payment = client.order.create({
+        "amount": amount,
+        "currency": "INR",
+        "payment_capture": "1"
+    })
+
+    context = {
+        "count": cart_count,
+        "cat": categories,
+        "rest": restaurants,
+        "pay_str": amount,
+        "payment": payment
+    }
+
+    return render(request, "payment.html", context)
+
+
+
+def payment_success(request):
+    uname = request.session.get('Username')
+    print("PAYMENT SUCCESS VIEW CALLED")
+
+    if uname:
+        CartDb.objects.filter(Username=uname).delete()
+
+    return redirect('home')

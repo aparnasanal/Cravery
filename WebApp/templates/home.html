@@ -82,43 +82,7 @@
                             </div>
                             <a href="{% url 'services' %}" class="nav-item nav-link">Services</a>
                             <a href="{% url 'contact' %}" class="nav-item nav-link me-2">Contact</a>
-                            <div class="nav-item dropdown d-block d-lg-none mb-3">
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">All Category</a>
-                                <div class="dropdown-menu m-0">
-                                    <ul class="list-unstyled categories-bars">
-                                        <li>
-                                            <div class="categories-bars-item">
-                                                <a href="#">Accessories</a>
-                                                <span>(3)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="categories-bars-item">
-                                                <a href="#">Electronics & Computer</a>
-                                                <span>(5)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="categories-bars-item">
-                                                <a href="#">Laptops & Desktops</a>
-                                                <span>(2)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="categories-bars-item">
-                                                <a href="#">Mobiles & Tablets</a>
-                                                <span>(8)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="categories-bars-item">
-                                                <a href="#">SmartPhone & Smart TV</a>
-                                                <span>(5)</span>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+
                         </div>
 
                         <a href="#" class="text-light d-flex align-items-center justify-content-center me-3"><span
@@ -140,10 +104,6 @@
                         <a href="#" class="dropdown-toggle text-light ms-2" data-bs-toggle="dropdown"><small><i
                                     class="fa fa-user me-2"></i>Hey {{request.session.Username}}</small></a>
                         <div class="dropdown-menu rounded">
-                            <a href="#" class="dropdown-item"> Wishlist</a>
-                            <a href="#" class="dropdown-item"> Notifications</a>
-                            <a href="#" class="dropdown-item"> Account Settings</a>
-                            <a href="#" class="dropdown-item"> My Account</a>
                             <a href="{% url 'user_logout' %}" class="dropdown-item"> Log Out</a>
                         </div>
                             {% else %}
@@ -165,10 +125,12 @@
         <div class="col-md-4 col-lg-6 text-center" style="z-index: 99; margin: auto; margin-top: -450px; padding-bottom: 500px; ">
                 <div class="position-relative ps-4">
                     <div class="d-flex rounded-pill">
-                            <input class="form-control border-0 rounded-pill w-100 text-white" type="text"
-                            data-bs-target="#dropdownToggle123" placeholder="Search Looking For?" style="background-color: rgba(0,0,0,0.5); margin-right:10px;">
-                        <button type="button" class="btn btn-primary rounded-pill py-3 px-5" style="border: 0;"><i
+                        <form method="GET" action="{% url 'search' %}">
+                            <input class=" border-0 rounded-pill  text-white" name="q" type="text" placeholder="Search restaurants, food, categories..."
+                                   style="background-color: rgba(0,0,0,0.5); margin-right:10px; width: 500px; padding: 20px;">
+                        <button type="submit" class="btn btn-primary rounded-pill py-3 px-5" style="border: 0;"><i
                                 class="fas fa-search"></i></button>
+                            </form>
                     </div>
                 </div>
             </div>
@@ -214,78 +176,7 @@
     </div>
     <!-- Carousel End -->
 
-    <!-- Searvices Start -->
-<!--    <div class="container-fluid px-0">-->
-<!--        <div class="row g-0">-->
-<!--            <div class="col-6 col-md-4 col-lg-2 border-start border-end wow fadeInUp" data-wow-delay="0.1s">-->
-<!--                <div class="p-4">-->
-<!--                    <div class="d-inline-flex align-items-center">-->
-<!--                        <i class="fa fa-sync-alt fa-2x text-primary"></i>-->
-<!--                        <div class="ms-4">-->
-<!--                            <h6 class="text-uppercase mb-2">Free Return</h6>-->
-<!--                            <p class="mb-0">30 days money back guarantee!</p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.2s">-->
-<!--                <div class="p-4">-->
-<!--                    <div class="d-flex align-items-center">-->
-<!--                        <i class="fab fa-telegram-plane fa-2x text-primary"></i>-->
-<!--                        <div class="ms-4">-->
-<!--                            <h6 class="text-uppercase mb-2">Free Shipping</h6>-->
-<!--                            <p class="mb-0">Free shipping on all order</p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.3s">-->
-<!--                <div class="p-4">-->
-<!--                    <div class="d-flex align-items-center">-->
-<!--                        <i class="fas fa-life-ring fa-2x text-primary"></i>-->
-<!--                        <div class="ms-4">-->
-<!--                            <h6 class="text-uppercase mb-2">Support 24/7</h6>-->
-<!--                            <p class="mb-0">We support online 24 hrs a day</p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.4s">-->
-<!--                <div class="p-4">-->
-<!--                    <div class="d-flex align-items-center">-->
-<!--                        <i class="fas fa-credit-card fa-2x text-primary"></i>-->
-<!--                        <div class="ms-4">-->
-<!--                            <h6 class="text-uppercase mb-2">Receive Gift Card</h6>-->
-<!--                            <p class="mb-0">Recieve gift all over oder $50</p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.5s">-->
-<!--                <div class="p-4">-->
-<!--                    <div class="d-flex align-items-center">-->
-<!--                        <i class="fas fa-lock fa-2x text-primary"></i>-->
-<!--                        <div class="ms-4">-->
-<!--                            <h6 class="text-uppercase mb-2">Secure Payment</h6>-->
-<!--                            <p class="mb-0">We Value Your Security</p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.6s">-->
-<!--                <div class="p-4">-->
-<!--                    <div class="d-flex align-items-center">-->
-<!--                        <i class="fas fa-blog fa-2x text-primary"></i>-->
-<!--                        <div class="ms-4">-->
-<!--                            <h6 class="text-uppercase mb-2">Online Service</h6>-->
-<!--                            <p class="mb-0">Free return products in 30 days</p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-    <!-- Searvices End -->
+
 
     <!-- Products Offer Start -->
     <div class="container-fluid bg-light py-5">
